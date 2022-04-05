@@ -13,11 +13,9 @@ app.use(urlencoded({limit: '50mb', extended: true }));
 
 app.use("/api",require('./routes/index.js'));
 
-app.get("/",(req,res)=>{
-    res.status(200).json({
-        message:"App is successfully"
-    });
-});
+app.get("/", (req, res) => {
+    res.sendFile("index.html", {root: './server/app'});
+})
 app.listen(process.env.PORT, () => {
     console.log(`Escuchando el puerto ${process.env.PORT}`);
 });

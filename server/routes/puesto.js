@@ -25,7 +25,10 @@ router.post("/", async (req,res) =>{
 
 router.get("/", async (req,res) =>{
     try{
-        const puestos = await PuestoModel.find().populate('empresa');
+        const puestos = await PuestoModel.find().populate({
+            path: 'idEmpresa',
+            select:'strNombre strRazonSocial',
+        });
         return res.status(200).json({
             response:puestos.length > 0 ? "Registro encontrados" : "No hay registros",
             data: puestos
@@ -46,7 +49,10 @@ router.get("/:id", async (req,res) =>{
                 error:"ID invalido o inexistente"
             })
         }
-        const puesto = await PuestoModel.findOne({_id:req.params.id}).populate('empresa');
+        const puesto = await PuestoModel.findOne({_id:req.params.id}).populate({
+            path: 'idEmpresa',
+            select:'strNombre strRazonSocial',
+        });
         return res.status(200).json({
             response:puesto ? "Registro encontrado" : "Registro no encontrado",
             data: puesto
@@ -75,7 +81,10 @@ router.put("/:id", async(req,res) =>{
                 error:err.message
             })
         });
-        const puesto = await PuestoModel.findOne({_id:req.params.id}).populate('empresa');
+        const puesto = await PuestoModel.findOne({_id:req.params.id}).populate({
+            path: 'idEmpresa',
+            select:'strNombre strRazonSocial',
+        });
         return res.status(200).json({
             response:"Puesto actualizado",
             data:puesto
